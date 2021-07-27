@@ -1,0 +1,11 @@
+#	软件测试术语
+软件质量(SW Quality)：软件的功能和性能满足用户需要的程度。
+软件Build：用于测试的软件中间版本程序。
+软件缺陷(SW Defect/bug/error)：软件的功能/性能/界面/文档与软件需求文档和用户的需要不一致的现象。
+软件缺陷生命周期(SW defect lifecycle)：报告、确认、修正、验证、关闭。
+测试用例(Testcase)：包含输入条件、执行步骤和测试期望的正确结果的文档。
+缺陷跟踪系统（DTS）：管理软件缺陷的整个生命周期的工具。
+静态测试与动态测试(Statistic testing and dynamic testing)：不执行/执行程序进行的测试
+白盒测试与黑盒测试（White box testing and Black box testing）：测试软件代码结构的测试，不关心软件代码结构，以软件输入和输出来测试软件功能的测试。
+回归测试与冒烟测试（Regression testing and smoke testing）:在新的软件Build上验证修正的缺陷是否不再现，在大规模测试前，快速执行的基本功能测试。
+软件里程碑（SW Milestone）：软件项目开发的各个关键过程。
