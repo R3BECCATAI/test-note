@@ -1,0 +1,77 @@
+#自动化测试的优点：
+1.可重用性  2.可靠性  3.全天运行
+
+### pytest:
+特性：
+1.自动发现测试模块和功能
+2.有效的cli来更好地控制你想要运行或跳过的内容
+3.大型第三方插件生态系统
+4.固定装置-不同的类型，不同的范围
+5.与传统的单元测试框架一起工作
+
+# content of pytest.ini
+# Example 1: have pytest look for "check" instead of "test"
+# can also be defined in tox.ini or setup.cfg file, although the section
+# name in setup.cfg files should be "tool:pytest"
+[pytest]
+python_files = check_*.py
+python_classes = Check
+python_functions = *_check
+
+#让我们看一下非常基本的测试函数
+
+class CheckClass(object):
+  def one_check(self):
+    x = "this"
+    assert 'h' in x
+ 
+  def two_check(self):
+    x = "hello"
+    assert hasattr(x, 'check')
+    
+    没有花里胡哨的assertEqual 或 assertDictEqual等，只是简单明了的断言，对于比较两个对象的简单操作，不需要导入这些断言函数。
+    assert是python已经提供的功能，因此不需要重新发明
+    固定装置会起作用的，因此无需重新发明‘
+    ###查看测试功能，测试钱包软件的基本操作（比如
+    // test_wallet.py
+from wallet import Walletdef test_default_initial_amount():
+  wallet = Wallet()
+  assert wallet.balance == 0
+  wallet.close()def test_setting_initial_amount():
+  wallet = Wallet(initial_amount=100)
+  assert wallet.balance == 100
+  wallet.close()def test_wallet_add_cash():
+  wallet = Wallet(initial_amount=10)
+  wallet.add_cash(amount=90)
+  assert wallet.balance == 100
+  wallet.close()def test_wallet_spend_cash():
+  wallet = Wallet(initial_amount=20)
+  wallet.spend_cash(amount=10)
+  assert wallet.balance == 10
+  wallet.close()
+  
+  
+  ###简洁版
+  import pytest
+from _pytest.fixtures import SubRequest
+from wallet import Wallet#==================== fixtures
+@pytest.fixture
+def wallet(request: SubRequest):
+  param = getattr(request, ‘param', None)
+  if param:
+   prepared_wallet = Wallet(initial_amount=param[0])
+  else:
+   prepared_wallet = Wallet()
+  yield prepared_wallet
+  prepared_wallet.close()#==================== testsdef test_default_initial_amount(wallet):
+  assert wallet.balance == 0@pytest.mark.parametrize(‘wallet', [(100,)], indirect=True)
+def test_setting_initial_amount(wallet):
+  assert wallet.balance == 100@pytest.mark.parametrize(‘wallet', [(10,)], indirect=True)
+def test_wallet_add_cash(wallet):
+  wallet.add_cash(amount=90)
+  assert wallet.balance == 100@pytest.mark.parametrize(‘wallet', [(20,)], indirect=True)
+def test_wallet_spend_cash(wallet):
+  wallet.spend_cash(amount=10)
+  assert wallet.balance == 10
+    #备注：这个测试函数负责钱包设置、拆卸、实例化和关闭钱包。便于编写以及可以复用！
+    
